@@ -44,6 +44,7 @@ void setData(Matrix<float> matrixObj, int m, int n, int x){
 void printMatrix(Matrix<float> matrixObj, int m, int n){
 	for(int i=0; i<m; i++){
 		for(int j=0; j<n; j++){
+			matrixObj.systemException(i,j);
 			cout<<matrixObj.getValue(i,j)<<"\t";
 		}
 		cout<<"\n";

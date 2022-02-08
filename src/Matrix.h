@@ -2,6 +2,8 @@
 #define MATRIX_H
 
 #include <stdexcept>
+#include <iostream>
+#include <string>
 
 using std::runtime_error;
 
@@ -42,6 +44,11 @@ class Matrix{
 			}
 			
 			return matrix[row][column];
+		}
+		
+		void systemException(int row, int column){
+			std::string value = std::to_string(matrix[row][column]);
+			if(value=="nan") throw runtime_error("The system has no solution or has infinite solutions");
 		}
 		
 		void setValue(int row, int column, E value){
