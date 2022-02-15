@@ -17,8 +17,6 @@ class Matrix{
 	public:
 		//CONSTRUCTOR
 		Matrix(int m, int n){
-			if(m <= 0 || n <= 0) throw runtime_error("Numbers of rows and columns must be grather than zero.");
-				
 			this->m = m;
 			this->n = n;
 			matrix = new E*[m];
@@ -35,33 +33,6 @@ class Matrix{
 			delete[] matrix;
 		}
 		
-		E getValue(int row, int column){
-			if(row < 0 || row >= m){
-				throw runtime_error("Invalid row.");
-			}
-			if(column < 0 || column >= n){
-				throw runtime_error("Invalid column.");	
-			}
-			
-			return matrix[row][column];
-		}
-		
-		void systemException(int row, int column){
-			std::string value = std::to_string(matrix[row][column]);
-			if(value=="nan") throw runtime_error("The system has no solution or has infinite solutions");
-		}
-		
-		void setValue(int row, int column, E value){
-			if(row < 0 || row >= m){
-				throw runtime_error("Invalid row.");
-			}
-			if(column < 0 || column >= n){
-				throw runtime_error("Invalid column.");
-			}
-		
-			matrix[row][column] = value;
-		}
-		
 		//GAUSS-JORDAN ALGORITHM
 		void solveSystem(){
 			for(int i=0; i<this->m; i++){
@@ -71,8 +42,7 @@ class Matrix{
 				}
 				for(int k=0; k<this->m; k++){		
 					if(k!=i){
-						coefficient = matrix[k][l];
-						coefficient *= -1;		
+						coefficient = (matrix[k][l])*-1;	
 						for(int j=0; j<this->n; j++){							
 							matrix[k][j] += (matrix[l][j]*coefficient);
 						}		
@@ -82,12 +52,36 @@ class Matrix{
 			}		
 		}
 		
+		void systemException(int row, int column){
+			std::string value = std::to_string(matrix[row][column]);
+			if(value=="nan") throw runtime_error("The system has no solution or has infinite solutions");
+		}
+		
+		void valid(int row, int column){
+			if(row < 0 || row >= m){
+				throw runtime_error("Invalid row.");
+			}
+			if(column < 0 || column >= n){
+				throw runtime_error("Invalid column.");
+			}
+		}
+		
 		int getRows(){
 			return m;
 		}
 		
 		int getColumns(){
 			return n;
+		}
+		
+		E getValue(int row, int column){
+			valid(row,column);
+			return matrix[row][column];
+		}
+		
+		void setValue(int row, int column, E value){
+			valid(row,column);
+			matrix[row][column] = value;
 		}
 };
 
