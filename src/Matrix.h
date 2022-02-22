@@ -13,6 +13,7 @@ class Matrix{
 		int m, n, l=0;
 		E** matrix;
 		float pivot, coefficient;
+		E array = {};
 		
 	public:
 		//CONSTRUCTOR
@@ -36,6 +37,13 @@ class Matrix{
 		//GAUSS-JORDAN ALGORITHM
 		void solveSystem(){
 			for(int i=0; i<this->m; i++){
+				if(matrix[i][l]==0){
+					for(int j=0; j<this->n; j++){
+						array = matrix[i][j];
+						matrix[i][j] = matrix[i+1][j];
+						matrix[i+1][j] = array;
+					}
+				}
 				pivot = matrix[i][l];
 				for(int j=0; j<this->n; j++){					
 					matrix[i][j] /= pivot;
