@@ -11,6 +11,7 @@ void setData(Matrix<float>, int, int, int);
 void printMatrix(Matrix<float>, int, int);
 void printRowsColumns(Matrix <float>);
 void solveSystem(Matrix<float>, int, int);
+void checkMatrixData(Matrix<float>, int, int);
 
 int main(int argc, char** argv) {
 	int m,n,x;
@@ -27,6 +28,8 @@ int main(int argc, char** argv) {
 	
 	cout<<"\n";
 	setData(matrixObj,m,n,x);
+	checkMatrixData(matrixObj,m,n);
+	system("CLS");
 	solveSystem(matrixObj,m,n);
 	
 	getch();
@@ -80,18 +83,20 @@ void printRowsColumns(Matrix <float> matrixObj){
 }
 
 void solveSystem(Matrix <float> matrixObj, int m, int n){
+	matrixObj.solveSystem();
+	cout<<"\nSolution by Gauss-Jordan Algorithm:\n\n";
+	printMatrix(matrixObj,m,n);
+	printRowsColumns(matrixObj);
+}
+
+void checkMatrixData(Matrix<float> matrixObj, int m, int n) {
 	int changeValue,columnValue,rowValue,newValue;
-	
-	do{
+
+	do {
 		printMatrix(matrixObj,m,n);
-		cout<<"\nPress 1 if you want to solve this matrix or 0 if you want to change a value: "; cin>>changeValue;
-		if(changeValue==1){
-			matrixObj.solveSystem();
-			cout<<"\n\nSolution by Gauss-Jordan Algorithm:\n\n";
-			printMatrix(matrixObj,m,n);
-			printRowsColumns(matrixObj);
-		}
-		else if(changeValue==0){	
+		cout<<"\nPress 1 if you want to use this matrix or 0 if you want to change a value: "; cin>>changeValue;
+
+		if(changeValue==0) {	
 			cout<<"\n\tMatrix["<<m<<"]["<<n<<"]"<<endl;
 			cout<<"\nDigit the new value and its position"<<endl;
 			cout<<"\nRow: "; cin>>rowValue;
@@ -99,11 +104,13 @@ void solveSystem(Matrix <float> matrixObj, int m, int n){
 			cout<<"New value: "; cin>>newValue;
 			matrixObj.setValue(rowValue,columnValue,newValue);
 			system("CLS");
-			cout<<"\n";
-		}
-		else {
+			cout<<"\nThe changes have been made successfully.";
+			cout<<"\n\n";
+		} 
+		
+		else if(changeValue!=1) {
 			system("CLS");
 			cout<<"\n\tERROR: Press a valid key\n"<<endl;
-		}	
-	}while(changeValue!=1);
+		}
+	} while(changeValue!=1);
 }
